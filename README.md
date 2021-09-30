@@ -12,6 +12,12 @@ This repository is dedicated to all the projects I'm doing during the specializa
 
 
 
+**Projects:**
+
+- *Intro to R* - Basics of the language and methods used for data analysis.
+
+
+
 ### Machine Learning Nanodegree (Udacity)
 
 - [Course website](https://www.udacity.com/course/machine-learning-engineer-nanodegree--nd009t)
