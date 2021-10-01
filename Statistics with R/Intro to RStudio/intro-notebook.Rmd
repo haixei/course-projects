@@ -1,0 +1,83 @@
+---
+title: "Introduction to R and RStudio"
+output: html_notebook
+---
+
+This notebook is related to the first course in the Statistics with R specialization and showcases basic functions of the language as well as its most used libraries. I'm going to work with the flights dataset (nycflights13) and perform a quick analysis.
+
+Let's start with exploring the dataset.
+
+```{r}
+head(nycflights)
+```
+
+```{r}
+str(nycflights)
+```
+```{r}
+summary(nycflights)
+```
+##  Plotting the data
+
+### 1) Simple scatter plot with a gradient
+We use geom_point to crate the scatter plot and scale colour gradient to create the gradient. Below we can see arrival delay plotted against the distance.
+```{r}
+ggplot() + geom_point(data = nycflights, aes(x = distance, y = arr_delay, colour = arr_delay)) + scale_colour_gradient(low="#A9C8F3", high="purple2")
+```
+### 2) Histogram
+
+```{r}
+ggplot(data = nycflights, mapping = aes(x = carrier)) +
+  geom_histogram(stat = "count", fill="royalblue4")
+```
+
+### 3) Freqpoly
+Freqpoly is a line histogram, in this case we display a subset of data: arrival delay lower than 200 grouped by the carrier.
+```{r}
+ggplot(subset(nycflights, arr_delay < 200), mapping = aes(x = arr_delay)) + 
+  geom_freqpoly(mapping = aes(colour = carrier), binwidth = 5)
+```
+### 4) Box plots
+```{r}
+ggplot(data = nycflights, mapping = aes(x = distance, y = carrier, fill = carrier)) +
+  geom_boxplot()
+```
+
+## Creating new features
+
+```{r}
+nycflights <- nycflights %>%
+  mutate(dep_type = ifelse(dep_delay < 5, "on time", "delayed"))
+
+nycflights %>%
+  group_by(origin) %>%
+  summarise(ot_dep_rate = sum(dep_type == "on time") / n()) %>%
+  arrange(desc(ot_dep_rate))
+```
+```{r}
+ggplot(data = nycflights, aes(x = origin, fill = dep_type)) +
+  geom_bar()
+```
+## Assignment answers
+
+- 1) Create a new variable called avg_speed and show the fastest planes.
+```{r}
+nycflights <- nycflights %>% 
+  mutate(avg_speed = distance/(air_time * 60))
+
+select(nycflights, avg_speed, tailnum)
+```
+  
+- 2) Make a scatterplot of avg_speed vs. distance. Correct answer: 3, there is a positive association between the variables.
+
+```{r}
+ggplot() + geom_point(data = nycflights, aes(x = distance, y = avg_speed, colour = avg_speed)) + scale_colour_gradient(low="#A9C8F3", high="purple2")
+```
+- 3) Create an on_time variable that depends on the aircraft being on time or earlier than expected.
+
+```{r}
+nycflights <- nycflights %>%
+  mutate(on_time = ifelse(arr_delay <= 0, "on time", "delayed"))
+
+select(nycflights, on_time, carrier)
+```
