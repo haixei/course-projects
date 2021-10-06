@@ -1,9 +1,7 @@
 # Study projects + resources
 
 This repository is dedicated to all the projects I'm doing during the specialization and the nanodegree. The projects are either assignments or homework that I did on my own to study the topics.
-
-
-
+#
 ### Statistics with R Specialization (Duke's University)
 
 - [Course Website](https://www.coursera.org/specializations/statistics)
@@ -16,9 +14,7 @@ This repository is dedicated to all the projects I'm doing during the specializa
 
 - [*Intro to R*](https://haixei.github.io/course-projects/Statistics%20with%20R/Intro%20to%20RStudio/intro-notebook.nb.html) - Basics of the language and methods used for data analysis.
 - [*Probability - Kobe's "hot hand"*](https://haixei.github.io/course-projects/Statistics%20with%20R/Probability/Probability.nb.html) - Answers to the lab exercises, comparing random event to a real one.
-
-
-
+#
 ### Machine Learning Nanodegree (Udacity)
 
 - [Course website](https://www.udacity.com/course/machine-learning-engineer-nanodegree--nd009t)
