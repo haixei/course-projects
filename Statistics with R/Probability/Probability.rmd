@@ -1,0 +1,65 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Lab assignment notebook for the probability lesson. First we transformed the kobe_basket dataset into kobe_streak and learn about the "hot hand" phenomenon.
+
+```{r}
+library(statsr)
+library(dplyr)
+library(ggplot2)
+
+data(kobe_basket)
+kobe_streak <- calc_streak(kobe_basket$shot)
+```
+
+## Distribution of the new data.
+```{r}
+kobe_plot <- ggplot(data = kobe_streak, aes(x = length)) +
+  geom_histogram(binwidth = 1, fill="cornflowerblue")
+
+kobe_plot
+```
+
+
+## Simulating a similar event
+```{r}
+shot_outcomes <- c("H", "M")
+sim_basket <- sample(shot_outcomes, size = 133, replace = TRUE, prob = c(0.45, 0.55))
+
+table(sim_basket)
+```
+
+Calculating the streaks in our simulated event and comparing it to the real data.We know that the simulated data has shots that are independent of each other and there is no presence of the "hot hand".
+```{r}
+sim_streak <- calc_streak(sim_basket)
+sim_plot <- ggplot(data = sim_streak, aes(x = length)) +
+  geom_histogram(binwidth = 1, fill="lightslateblue")
+
+sim_plot
+```
+
+
+Comparing the distribution of the streaks.
+```{r}
+library(patchwork)
+
+
+sim_plot <- sim_plot +
+  ggtitle("Simulated")
+
+kobe_plot <- kobe_plot +
+  ggtitle("Real")
+
+
+sim_plot + kobe_plot
+```
+The distributions look similar and there doesn't seem to be any evidence for Kobe to have a "hot hand". The simulated data seems to have a longer maximum streak and less one shot streaks. The first could be related to the fact that it's hard in real life to maintain a streak like that (ex. getting tired) and the latter could be advocating for Kobe just being a great player and hitting a lot of one-timers. The streaks above 1 have a distribution that looks almost the same.
+
+### Exercise answers
+1) 62
+2) We need to add "prob = c(0.45, 0.55)" to the sample function
+3) In the code for the second plot
+4) no.1 - 2), no.2 - 1)
+
