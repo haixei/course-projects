@@ -12,9 +12,10 @@ This repository is dedicated to all the projects I'm doing during the specializa
 
 
 
-**Projects:**
+**Notebooks:**
 
 - [*Intro to R*](https://haixei.github.io/course-projects/Statistics%20with%20R/Intro%20to%20RStudio/intro-notebook.nb.html) - Basics of the language and methods used for data analysis.
+- [*Probability - Kobe's "hot hand"*](https://haixei.github.io/course-projects/Statistics%20with%20R/Probability/Probability.nb.html) - Answers to the lab exercises, comparing random event to a real one.
 
 
 
