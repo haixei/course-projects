@@ -14,7 +14,7 @@ This repository is dedicated to all the projects I'm doing during the specializa
 
 **Projects:**
 
-- *Intro to R* - Basics of the language and methods used for data analysis.
+- [*Intro to R*](https://haixei.github.io/course-projects/Statistics%20with%20R/Intro%20to%20RStudio/intro-notebook.nb.html) - Basics of the language and methods used for data analysis.
 
 
 
