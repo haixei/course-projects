@@ -1,0 +1,100 @@
+---
+title: "NYC Flights"
+output: html_notebook
+---
+
+This notebook's purpose is to find answers to the week two quiz. It contains basic data analysis of the NYC flights dataset as well as more functions of the R language.
+
+```{r}
+# Load the data and the packages
+library(statsr)
+library(dplyr)
+library(ggplot2)
+
+data(nycflights)
+names(nycflights)
+```
+
+
+## Exploring the data
+
+```{r}
+str(nycflights)
+```
+
+```{r}
+head(nycflights)
+```
+
+## Answering the questions
+For this section I am going to create a separate data set with data only from the month of February and only of the flights that headed to San Francisco at that time.
+
+```{r}
+# Calculate the amount of flights that fit both categories
+sfo_flights <- nycflights %>%
+  filter(dest == "SFO" & month == 2)
+
+count(sfo_flights)
+```
+
+```{r}
+ggplot(data = sfo_flights, aes(x = arr_delay)) +
+  geom_histogram(fill="royalblue4", binwidth=5)
+```
+
+```{r}
+# Finding which carrier has the highest arrival delay IQR
+sfo_flights %>%
+  group_by(carrier) %>%
+  summarise(mean = mean(arr_delay), IQR = IQR(arr_delay), n = n())
+```
+
+```{r}
+# The month with the highest departure delay (mean, median)
+nycflights %>%
+  group_by(month) %>%
+  summarise(mean = mean(dep_delay), median = median(dep_delay))
+```
+
+```{r}
+# The carrier with the biggest % of on-time departures
+nycflights <- nycflights %>%
+  mutate(dep_type = ifelse(dep_delay < 5, "on time", "delayed"))
+
+nycflights %>%
+  group_by(origin) %>%
+  summarise(ot_dep_rate = sum(dep_type == "on time") / n()) %>%
+  arrange(desc(ot_dep_rate))
+```
+
+```{r}
+# The aircraft with the highest average speed
+nycflights %>%
+  group_by(tailnum) %>%
+  mutate(avg_speed = distance/(air_time/60)) %>%
+  select(tailnum, avg_speed) %>%
+  arrange(desc(avg_speed))
+```
+
+```{r}
+# Scatterplot of the distance against the average speed
+ggplot() + geom_point(data = nycflights, aes(x=distance, y=avg_speed, colour=avg_speed), size=1)
+```
+
+```{r}
+# Create new variable that contains information on whether the arrival was delayed or on time/earlier
+nycflights <- nycflights %>%
+  mutate(arr_type = ifelse(arr_delay <= 0, "on time", "delayed"))
+
+# Create new variable that explains whether the department was delayed more than 5 minutes, less or equal to 5 minutes or it was on time
+nycflights <- nycflights %>%
+  mutate(dep_type = ifelse(dep_delay < 5, "on time", "delayed"))
+
+
+delayed_on_time <- nycflights %>% filter(dep_type == "delayed" & arr_type == "on time")
+delayed <- nycflights %>% filter(dep_type == "delayed")
+perc <- count(delayed_on_time)$n/count(delayed)$n
+
+perc
+```
+
